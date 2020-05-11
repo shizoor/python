@@ -1,0 +1,20 @@
+mysql> select * from names;
++---------------+-------------------------+-----+
+| name          | children                | id  |
++---------------+-------------------------+-----+
+| Evan Weinberg | 2, 3, 4, 5              |   1 |
+| David Smith   |                         |   2 |
+| Emma Davis    |                         |   3 |
+| Milton Drew   |                         |   4 |
+| Rupert Harris | 6, 7, 8                 |   5 |
+| Lucy Minster  |                         |   6 |
+| Aaron Webster |                         |   7 |
+| Fred Smith    |                         |   8 |
+| Coffee        | 805                     | 800 |
+| Tea           | 800                     | 801 |
+| Syrup         | 800                     | 802 |
+| Lemon         | 800                     | 803 |
+| Water         | 800                     | 804 |
+| Soup          | 800, 801, 802, 803, 804 | 805 |
++---------------+-------------------------+-----+
+14 rows in set (0.00 sec)
