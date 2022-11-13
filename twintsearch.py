@@ -46,10 +46,10 @@ while(c.Until[0:4]!='2010'):      #This is a mess.   It stops the search when we
         exceptioncount=exceptioncount+1
         print("blank list, sleeping for "+str(sleeptime))
         print("c.Until = "+str(c.Until+"setting to prevuntil of "+str(prevuntil)))
+        c.Until=prevuntil
         time.sleep (sleeptime)
         sleeptime+=1
         #if(exceptioncount>1):
         #    print("more than one excpetion, taking an hour from c.Until")
         #    c.Until=datetime.strftime(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')-timedelta(hours=1),'%Y-%m-%d %H:%M:%S')
         #    print("c.Until = "+str(c.Until))
-
