@@ -37,7 +37,7 @@ while(c.Until[0:4]!='2010'):      #This is a mess.   It stops the search when we
         print ("Exception while running search, blanking df")
         df=''           #  If Twitter tells you to fuck of with your request for data, remember to blank the dataframe
 
-    if(len(df)>1):
+    if(len(df)>1):   #Had to set >1 here.   When twitter sends invalid data, the df sometimes wan't a length of 0.   Unclear why.  
         c.Until=(df.iloc[[-1]].iloc[0].date)    #Get the date of the last tweet and carry on searching from there
         print ("Setting c.Until to : " + str(c.Until) + " from last tweet")
         if(sleeptime>5):sleeptime-=1      #  Staggered backoff policy
