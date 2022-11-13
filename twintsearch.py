@@ -20,7 +20,7 @@ c.Since = '2015-02-01 00:00:00'  #This gets ignored in this version of twint.
 c.Until = '2022-11-12 11:49:17'  #Date of the latest tweet to scrape, set it to current time to get everything
 c.Pandas = True
 
-prevuntil=''
+prevuntil=c.Until
 exceptioncount=0
 
 
@@ -37,14 +37,15 @@ while(c.Until[0:4]!='2010'):      #This is a mess.   It stops the search when we
         print ("Exception while running search, blanking df")
         df=''           #  If Twitter tells you to fuck of with your request for data, remember to blank the dataframe
 
-    if(len(df)>1):   #Had to set >1 here.   When twitter sends invalid data, the df sometimes wan't a length of 0.   Unclear why.  
+    if(len(df)>1):
         c.Until=(df.iloc[[-1]].iloc[0].date)    #Get the date of the last tweet and carry on searching from there
-        print ("Setting c.Until to : " + str(c.Until) + " from last tweet")
+        print ("Setting c.Until and prevuntil to : " + str(c.Until) + " from last tweet")
+        prevuntil=c.Until
         if(sleeptime>5):sleeptime-=1      #  Staggered backoff policy
     else:
         exceptioncount=exceptioncount+1
         print("blank list, sleeping for "+str(sleeptime))
-        print("c.Until = "+str(c.Until))
+        print("c.Until = "+str(c.Until+"setting to prevuntil of "+str(prevuntil)))
         time.sleep (sleeptime)
         sleeptime+=1
         #if(exceptioncount>1):
