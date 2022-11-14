@@ -28,6 +28,10 @@ twint.run.Search(c)
 df = twint.storage.panda.Tweets_df
 
 while(c.Until[0:4]!='2010'):      #This is a mess.   It stops the search when we reach 2014 but is done badly.  Will improve this.
+    if((datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')>datetime.strptime(prevuntil, '%Y-%m-%d %H:%M:%S'))):
+        print("c.Until:"+str(c.Until)+" was greater than prevuntil:"+str(prevuntil))
+        c.Until=prevuntil
+
     if(sleeptime>18):sleeptime=4    #found the backoff policy of 100 ws too lax so dropped it to 10
     try:
         twint.run.Search(c)
