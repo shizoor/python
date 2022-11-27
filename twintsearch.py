@@ -51,7 +51,7 @@ while(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')>datetime.strptime(c.Since,
         exceptioncount=0
     except:
         print ("Exception while running search, blanking df")   
-        df=''           #  If Twitter tells you to fuck of with your request for data, remember to blank the dataframe
+        df=''           #  If Twitter denies your request for data, remember to blank the dataframe
 
     if(len(df)>1):
         if (not flag):
