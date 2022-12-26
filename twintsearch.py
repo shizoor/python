@@ -17,7 +17,7 @@ search = str(sys.argv[1])  #set the argument of the command to the search string
 c.Search = search
 c.Since = '2010-01-01 00:00:00'  #This gets ignored in this version of twint but can be compared against so I use it to stop the loop 
 
-c.Until = '2022-12-04 23:00:46'  #Date of the latest tweet to scrape, set it to current time to get everything
+c.Until = '2022-12-04 23:00:46'  #Date of the latest tweet to scrape, set it to current time to get everything  (datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 c.Pandas = True
 
 prevuntil=c.Until
@@ -31,6 +31,7 @@ csv_header=["id", "conversation_id", "created_at", "date", "timezone", "nlikes",
 
 
 while(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')>datetime.strptime(c.Since, '%Y-%m-%d %H:%M:%S')):      #   Stops the search when we reach c.Since
+    c.Until=datetime.strftime(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')-timedelta(minutes=10),'%Y-%m-%d %H:%M:%S') #Deals with gaps between tweets
     print("c.Until:" + str(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')))
     print("prevuntil :" + str(datetime.strptime(prevuntil, '%Y-%m-%d %H:%M:%S')))
     if((datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')<datetime.strptime(prevuntil, '%Y-%m-%d %H:%M:%S'))):
@@ -72,8 +73,8 @@ while(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')>datetime.strptime(c.Since,
         c.Until=prevuntil
         time.sleep (sleeptime)
         sleeptime+=1
-        #if(exceptioncount>1):      #Uncomment this bit if your search gets "stuck" and won't get past a certain point, possibly due to twitter's bot detection / there being no tweets.
-        #    print("more than one excpetion, taking an hour from c.Until")   
-        #    c.Until=datetime.strftime(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')-timedelta(hours=1),'%Y-%m-%d %H:%M:%S')  #if still no joy, copy this line to the very start of the loop, changing hours=1 to minutes=10
-        #    print("c.Until = "+str(c.Until))
+        if(exceptioncount>1):      #Deals with gaps between tweets.
+            print("more than one excpetion, taking an hour from c.Until")   
+            c.Until=datetime.strftime(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')-timedelta(hours=1),'%Y-%m-%d %H:%M:%S')  
+            print("c.Until = "+str(c.Until))
 
