@@ -2,6 +2,7 @@ import twint
 import nest_asyncio
 import pandas as pd
 import datetime
+import csv
 from datetime import datetime, timedelta
 import time
 import sys
@@ -17,7 +18,7 @@ search = str(sys.argv[1])  #set the argument of the command to the search string
 c.Search = search
 c.Since = '2010-01-01 00:00:00'  #This gets ignored in this version of twint but can be compared against so I use it to stop the loop 
 
-c.Until = '2022-12-04 23:00:46'  #Date of the latest tweet to scrape, set it to current time to get everything  (datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+c.Until = (datetime.now().strftime("%Y-%m-%d %H:%M:%S"))  #Date of the latest tweet to scrape, set it to current time to get everything  (datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 c.Pandas = True
 
 prevuntil=c.Until
@@ -64,7 +65,10 @@ while(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')>datetime.strptime(c.Since,
             c.Until=prevuntil
             c.Until=datetime.strftime(datetime.strptime(c.Until, '%Y-%m-%d %H:%M:%S')+timedelta(minutes=-10), '%Y-%m-%d %H:%M:%S')
         print("writing dataframe to " + str(sys.argv[1]) + ".csv")
-        df.to_csv((sys.argv[1]+".csv"), mode='a', index=False, header=False, columns=csv_header, escapechar="\\", doublequote=False)
+        #new_df=df.tweet.apply(lambda x: str(x.replace(',','\\,')))  #bodge to try to get it working with commas, didn't work, went with tabs instead.  Hence sep='\t' 3 lines down
+        #df.update(new_df)
+        #print(df.tweet)
+        df.to_csv((sys.argv[1]+".csv"), mode='a', index=False, header=False, columns=csv_header, sep='\t', quoting=csv.QUOTE_NONE, escapechar='\\')
         if(sleeptime>5):sleeptime-=1      #  Staggered backoff policy
     else:
         exceptioncount=exceptioncount+1
