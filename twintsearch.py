@@ -14,6 +14,7 @@ sleeptime=(5)
 c = twint.Config()
 c.Store_csv = True
 c.User_full = True
+c.Profile_full = True    #Very important, includes shadowbanned accounts!!!
 search = str(sys.argv[1])  #set the argument of the command to the search string (user or subject to scrape)
 c.Search = search
 c.Since = '2010-01-01 00:00:00'  #This gets ignored in this version of twint but can be compared against so I use it to stop the loop 
